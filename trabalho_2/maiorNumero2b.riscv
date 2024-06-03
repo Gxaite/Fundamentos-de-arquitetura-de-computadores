@@ -1,0 +1,50 @@
+.data
+linha: .string "\n"
+
+
+.text
+
+main:
+	#t0 = n
+	li a7 , 5 # leitura de inteiro
+	ecall
+	mv t0, a0 # passa para o registrador t0 o valor lido
+	
+	#Primeiro numero lido, armazenado em t1
+	li a7 , 5 # leitura de inteiro
+	ecall
+	mv t1, a0 # passa para o registrador t0 o valor lido
+	addi t0,t0,-1 # n = n -1
+loop:
+    	# Verifica se t0 é igual a zero (fim do loop)
+    	beqz t0, end
+
+    	# Lê o próximo número
+   	 li a7, 5
+    	ecall
+   	 mv t2, a0
+
+    	# Compara o número atual (t2) com o maior número encontrado até agora (t1)
+    	blt t1, t2, update
+
+   	# Decrementa o contador do loop
+  	addi t0, t0, -1
+    	j loop
+
+update:
+    	# Atualiza o maior número encontrado
+    	mv t1, t2
+   	# Decrementa o contador do loop
+    	addi t0, t0, -1
+    	j loop
+
+end:
+	#Imprime o maior número encontrado
+    	mv a0, t1
+   	li a7, 1
+   	ecall
+   	la a0,linha
+   	li a7, 4
+   	ecall
+	
+	

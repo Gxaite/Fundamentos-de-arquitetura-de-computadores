@@ -1,0 +1,190 @@
+.data
+
+#criacao das strings para serem impressas posteriormente
+add_str: .string "ADD: "
+sub_str: .string "SUB: "
+and_str: .string "AND: "
+or_str: .string "OR: "
+xor_str: .string "XOR: "
+mask_str: .string "MASK: "
+sll_str: .string "SLL("
+srl_str: .string "SRL("
+final: .string "): "
+newline: .string "\n"
+
+.text
+
+main:
+	#t0 = a
+	li a7, 5 # carega o valor 5 no registrador a7, leitura de inteiro
+	ecall # chamada do sistema, determinada peo registrador a7
+	mv t0, a0 # o  resultado é armazenado a0, e movemos ele para o registrador t1
+	
+	#t1 = b
+	li a7, 5
+	ecall
+	mv t1, a0
+	
+	#t2 = c
+	li a7, 5
+	ecall
+	mv t2, a0
+	
+	#SOMA
+	# formatando a string
+	la a0,add_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+	add t3,t0,t1
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	#SUBTRACAO
+	# formatando a string
+	la a0,sub_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+	sub t3,t0,t1
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	# AND a e b
+	# formatando a string
+	la a0,and_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+	and t3,t0,t1
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	# OR a e b
+	# formatando a string
+	la a0,or_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+	or t3,t0,t1
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	#XOR a e b
+	# formatando a string
+	la a0,xor_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+	xor t3,t0,t1
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	# AND c e 31
+	# formatando a string
+	la a0,mask_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	# adicionando os valores de a e b
+    	#t3 = m
+	andi t3,t2,31 #faz o and com o registrador c e o valor 31
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	# formatando a string
+	la a0,sll_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	#t3 = m
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+	
+	# Final da string
+	la a0, final # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+	# deslocando  a para esquerda m bits
+	sll t4,t0,t3 #faz o and com o registrador c e o valor 31
+	mv a0, t4 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+	
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	# deslocamento de a para direita
+	la a0,srl_str # add_str #carrega o endereço da string add_str
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+    	#t3 = m
+	mv a0, t3 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+	
+	# Final da string
+	la a0, final # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+
+	# deslocando  a para esquerda m bits
+	srl t4,t1,t3 #faz o and com o registrador c e o valor 31
+	mv a0, t4 # para ser impresso o temro precisa estar em a0
+	li a7, 1 # chamada de sistema para imprimir inteiro
+	ecall
+	
+	# Quebra linha
+	la a0, newline # carrega o endereço da string pula_linha
+	li a7, 4 # carrega o valor 4 no registrador a7, chamada de sistema para imprimir string
+	ecall
+	
+	
+	
+	
