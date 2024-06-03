@@ -1,0 +1,18 @@
+   .data #Inicialização da secção de dados
+msg:
+   .string "Ola Mundo" #Define uma string terminada em null, ela será a mensagem
+   
+   .text # inicia a secção de texto
+   .globl main #Declara main globalmente
+
+main:
+   li a0,1 #Carrega o valor 1 para o a0, utilizar o stdout
+   la a1,msg #carrega o registrador a1 com a mensagem
+   li a2,10 # Carrega o tamanho da string no registrador a2
+   li a7,64 #carrega o numero 64 no a7 que significa sys_write
+   ecall
+   
+   #Terminar o programa
+   li a0,0 #Carrega o valor de 0 ao A0
+   li a7,93 # Load imadiate, carrega o valor 93 que é de sys_exit
+   ecall #Chama o sysexit 
