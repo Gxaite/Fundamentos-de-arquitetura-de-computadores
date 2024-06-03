@@ -1,0 +1,86 @@
+.data
+    newline: .string "\n" 
+    gabarito: .space 1000 
+    resposta: .space 1000  
+
+.text
+
+main:
+	li a7, 5 #leitura de inteiro
+	ecall 
+	mv t0, a0 #armazenando em a0
+	
+	beq t0, x0, final # condicao para caso N = 0
+	
+	addi t0, t0, 1   
+	
+	# LEITURA GABARITO
+	la a0, gabarito  
+    mv a1, t0  
+    li a7, 8  
+	ecall 
+	
+	# IMPRIME QUEBRA DE LINHA
+	la a0, newline
+	li a7, 4
+	ecall 
+	
+	# LEITURA RESPOSTA 
+	la a0, resposta 
+    mv a1, t0  
+    li a7, 8  
+	ecall  
+	
+	# IMPRIME QUEBRA DE LINHA
+	la a0, newline
+	li a7, 4
+	ecall 
+	
+	# CARREGA ENDERECO NOS REGISTRADORES
+	la t1, gabarito  
+    la t2, resposta
+
+
+	addi t3, zero, 0 # t3 = numero de caracteres iguais
+    addi t4, zero, 0 # t4 = contador do loop
+
+   loop:
+   	bgt t4, t0, final 
+
+   	#COMPARACAO STRINGS
+   	lb t5, 0(t1)
+   	lb t6, 0(t2) 
+   	
+   	beqz t5, final 
+   	beqz t6, final  
+   	
+   	beq t5, t6, equals 
+   
+   	j increment 
+   	
+   equals:
+   	addi t3, t3, 1 
+   	j increment
+   	
+   increment:
+   	addi t1, t1, 1 
+   	addi t2, t2, 1 
+   	addi t4, t4, 1 
+   	
+   	j loop
+   	
+   final:
+   	mv a0, t3 
+   	li a7,1 
+   	ecall
+   	
+   	# IMPRIME QUEBRA DE LINHA
+	la a0, newline
+	li a7, 4
+	ecall 
+   	
+	# FINALIZA PROGRAMA
+   	li a7, 10 
+	ecall
+   	
+   	

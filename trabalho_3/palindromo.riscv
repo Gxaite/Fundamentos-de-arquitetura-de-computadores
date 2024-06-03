@@ -1,0 +1,70 @@
+.data
+newline:  .string "\n"
+string_lida: .space 1000
+
+.text
+
+main:
+    # leitura de inteiro
+    li a7, 5
+    ecall
+    mv t0, a0
+    
+    addi t0, t0, 1
+    addi t1, zero, 0
+    addi t2, zero, 0
+    
+    la a0, string_lida
+    mv a1, t0
+    li a7, 8
+    ecall
+    la a0, newline
+    li a7, 4
+    ecall
+    
+    mv t6,t0
+    addi t0, t0, -1
+    addi t6,t6,-2
+    srli t5,t0,1
+    la t3, string_lida
+    la t4, string_lida
+    
+    li s0, 1
+    li s3 , 0
+verify:
+    beq s3, t5, palindrome
+    la t4, string_lida
+    add t4, t4, t6
+    lb t1, 0(t3)
+    lb t2, 0(t4)
+    bne t1,t2, noPalindrome
+    j update
+update:
+    addi t3, t3, 1
+    addi t6, t6, -1
+    addi s3, s3, 1
+    j verify
+palindrome:
+    li s1, 1
+    mv a0, s1
+    li a7, 1
+    ecall
+    
+    la a0, newline
+    li a7, 4
+    ecall
+
+    li a7, 10
+    ecall
+noPalindrome:
+    li s1, 0
+    mv a0, s1
+    li a7, 1
+    ecall
+    
+    la a0, newline
+    li a7, 4
+    ecall
+
+    li a7, 10
+    ecall
